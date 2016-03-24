@@ -1,0 +1,33 @@
+extends ../layout
+
+block content
+  #picks-container.picks-styling(ng-controller="PicksCtrl")
+    h1 Picks
+    p.lead.date-label Select a date to view picks
+    md-datepicker(ng-model="myDate", md-placeholder="Enter date", ng-change="changeSelect(myDate)")
+    
+    
+    .row.steps
+      .col-sm-3
+        .well
+          img.img-responsive(src="http://placehold.it/300x450")
+          h4 Pick Title 
+          
+      .col-sm-3
+        .well
+          img.img-responsive(src="http://placehold.it/300x450")
+          h4 Pick Title
+          
+      .col-sm-3
+        .well
+          img.img-responsive(src="http://placehold.it/300x450")
+          h4 Pick 
+          
+      .col-sm-3
+        .well
+          img.img-responsive(src="http://placehold.it/300x450")
+          h4 Pick  
+
+
+    
+    

@@ -1,0 +1,126 @@
+extends ../layout
+
+block content
+  #picks-create-container.picks-styling(ng-controller="PickSetCtrl")
+    h1 Select a date for picks
+    h4
+    
+    .row.vertical-align
+      .col-sm-1
+        span.h1.stepNum 1
+        
+      .col-sm-11
+        .container
+          .row
+            .col-sm-12
+              p.lead.date-label Select a date to view picks
+              md-datepicker(ng-model="myDate", md-placeholder="Enter date", ng-change="changeSelect(myDate)")
+            
+    hr
+    
+    .row.vertical-align
+      .col-sm-1
+        span.h1.stepNum 2
+        
+      .col-sm-11
+      
+        div(nv-file-drop="" uploader="uploader")
+        
+        .container
+          .row
+            .col-sm-12
+          
+              //.lead.date-label Select files
+              
+              div(ng-show="uploader.isHTML5")
+                div(nv-file-drop="" uploader="uploader" options="{ url: '/picks/upload' }")
+                  div(nv-file-over="" uploader="uploader" over-class="another-file-over-class" class="well my-drop-zone") Drag and drop images you want to upload
+                    br
+                    span or
+                    br
+                    .fileUpload.btn.btn-primary
+                      span Choose your files
+                      input.inputfile.upload(type="file" for="file" nv-file-select="" value="Click to upload" uploader="uploader" multiple)
+        
+          .row
+            .col-sm-12
+              h3 Image Upload Queue
+              span Queue length: {{ uploader.queue.length }}
+              
+              table.table
+                thead
+                  tr
+                    th(width="50%") Name
+                    th Heading
+                    th(ng-show="uploader.isHTML5") size
+                    th(ng-show="uploader.isHTML5") Progress
+                    th Status
+                    th Actions
+                tbody
+                  tr(ng-repeat="item in uploader.queue")
+                    td
+                      strong {{item.file.name}}
+                      div(ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }")
+                      input(type="text" placeholder="Enter Image Heading")
+                    td
+                      input(type="text" placeholder="Enter Image Heading")
+                    td(ng-show="uploader.isHTML5" nowrap) {{ item.file.size/1024/1024|number:2 }} MB
+                    td(ng-show="uploader.isHTML5")
+                      div.progress(style="margin-bottom: 0")
+                        div.progress-bar(role="progressbar" ng-style="{ 'width': item.progress + '%' }")
+                    td.text-center
+                      span(ng-show="item.isSuccess") 
+                        i.fa.fa-upload
+                      span(ng-show="item.isCancel") 
+                        i.fa.fa-ban
+                      span(ng-show="item.isError") 
+                        i.fa.fa-trash-o
+                    td(nowrap)
+                      button.btn.btn-success.btn-xs(type="button" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess")
+                        i.fa.fa-upload Upload
+                      
+                      button.btn.btn-warning.btn-xs(type="button" ng-click="item.cancel()" ng-disabled="!item.isUploading")
+                        i.fa.fa-ban Cancel
+                      
+                      button.btn.btn-danger.btn-xs(type="button" ng-click="item.remove()")
+                        i.fa.fa-trash-o Remove
+                        
+              div
+                div Queue progress:
+                  div.progress 
+                    div.progress-bar(role="progressbar" ng-style="{ 'width': uploader.progress + '%' }")
+                button.btn.btn-success.btn-s(type="button" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length")
+                    i.fa.fa-upload Upload all
+                button.btn.btn-warning.btn-s(type="button" class="" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading")
+                    i.fa.fa-ban Cancel all
+                button.btn.btn-danger.btn-s(type="button" class="" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length")
+                    i.fa.fa-trash-o Remove all
+                    
+                  
+                                    
+                      
+        
+          //- .row
+          //-   .col-sm-3
+          //-     .well
+          //-       img.img-responsive(src="http://placehold.it/300x450")
+          //-       h4 Pick Title 
+          //-       
+          //-   .col-sm-3
+          //-     .well
+          //-       img.img-responsive(src="http://placehold.it/300x450")
+          //-       h4 Pick Title
+          //-       
+          //-   .col-sm-3
+          //-     .well
+          //-       img.img-responsive(src="http://placehold.it/300x450")
+          //-       h4 Pick 
+          //-       
+          //-   .col-sm-3
+          //-     .well
+          //-       img.img-responsive(src="http://placehold.it/300x450")
+          //-       h4 Pick  
+
+
+    
+    

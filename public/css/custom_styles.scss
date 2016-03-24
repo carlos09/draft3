@@ -1,0 +1,89 @@
+.navbar-default {
+  background-color: rgba(19, 47, 83, .95);
+  padding: 5px 0;
+  .navbar-brand {
+    padding: 7px;
+
+    img.logo {
+      width: 200px;
+    }
+  }
+
+  .navbar-nav {
+    li {
+      a {
+        color: #E8E8E8;
+
+        &:hover {
+          color: #FBB040;
+        }
+      }
+
+      &.active {
+        a {
+          color: #FBB040;
+        }
+      }
+    }
+  }
+}
+
+.picks-styling {
+  .row.steps {
+    padding: 25px 0;
+  }
+
+  p.lead.date-label {
+    font-size: 18px;
+    display: inline;
+    margin: 0;
+  }
+
+  .my-drop-zone {
+    text-align: center;
+    background-color: #F9F9F9;
+    border: 3px dashed #E0E0E0;
+    font-size: 18px;
+    padding: 40px 20px;
+  }
+
+  .fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 5px 10px;
+
+    &.btn-primary {
+      color: #fff;
+      background-color: #337ab7;
+      border-color: #2e6da4;
+    }
+
+    input.upload {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 0;
+      padding: 0;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 0;
+      filter: alpha(opacity=0);
+    }
+  }
+
+  .md-datepicker-input-container {
+    margin-left: 0;
+  }
+}
+
+span.stepNum {
+  background-color: #132F53;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  color: #E8E8E8;
+  display: block;
+  margin: 0;
+}
