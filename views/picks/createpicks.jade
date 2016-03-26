@@ -2,8 +2,10 @@ extends ../layout
 
 block content
   #picks-create-container.picks-styling(ng-controller="PickSetCtrl")
-    h1 Create a new set of picks
+    h1 Create a new set of picks 
     p.lead.date-label Select a date for pick
+    
+    p #{set}
     
     hr
     
@@ -14,7 +16,7 @@ block content
       .col-sm-11
           .row
             .col-sm-12
-              p.lead.date-label Select a date to view picks
+              p.lead.date-label Select a date for the new picks set: 
               md-datepicker(ng-model="myDate", md-placeholder="Enter date", ng-change="changeSelect(myDate)")
             
     hr
@@ -41,72 +43,76 @@ block content
                       span Choose your files
                       input.inputfile.upload(type="file" for="file" nv-file-select="" value="Click to upload" uploader="uploader" multiple)
         
-          .row
+          .row(ng-if="uploader.queue.length")
             .col-sm-12
               
               span Queue length: {{ uploader.queue.length }}
               
-            .row
-              .col-sm-3(ng-repeat="item in uploader.queue")
-                .well.pick-bucket
-                  div(ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }")
-                  span.title {{item.file.name}} - 
-                  span.size.small {{ item.file.size/1024/1024|number:2 }} MB
-                  input.heading(type="text" placeholder="Enter Image Heading")
+          .row(ng-if="uploader.queue.length")
+            .col-sm-3(ng-repeat="item in uploader.queue")
+              .well.pick-bucket
+                div(ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }")
+                span.title {{item.file.name}} - 
+                span.size.small {{ item.file.size/1024/1024|number:2 }} MB
+                input.heading(type="text" placeholder="Enter Image Heading")
 
-              
-              //- table.table
-              //-   thead
-              //-     tr
-              //-       th(width="50%") Name
-              //-       th Heading
-              //-       th(ng-show="uploader.isHTML5") size
-              //-       th(ng-show="uploader.isHTML5") Progress
-              //-       th Status
-              //-       th Actions
-              //-   tbody
-              //-     tr(ng-repeat="item in uploader.queue")
-              //-       td
-              //-         strong {{item.file.name}}
-              //-         div(ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }")
-              //-         input(type="text" placeholder="Enter Image Heading")
-              //-       td
-              //-         input(type="text" placeholder="Enter Image Heading")
-              //-       td(ng-show="uploader.isHTML5" nowrap) {{ item.file.size/1024/1024|number:2 }} MB
-              //-       td(ng-show="uploader.isHTML5")
-              //-         div.progress(style="margin-bottom: 0")
-              //-           div.progress-bar(role="progressbar" ng-style="{ 'width': item.progress + '%' }")
-              //-       td.text-center
-              //-         span(ng-show="item.isSuccess") 
-              //-           i.fa.fa-upload
-              //-         span(ng-show="item.isCancel") 
-              //-           i.fa.fa-ban
-              //-         span(ng-show="item.isError") 
-              //-           i.fa.fa-trash-o
-              //-       td(nowrap)
-              //-         button.btn.btn-success.btn-xs(type="button" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess")
-              //-           i.fa.fa-upload Upload
-              //-         
-              //-         button.btn.btn-warning.btn-xs(type="button" ng-click="item.cancel()" ng-disabled="!item.isUploading")
-              //-           i.fa.fa-ban Cancel
-              //-         
-              //-         button.btn.btn-danger.btn-xs(type="button" ng-click="item.remove()")
-              //-           i.fa.fa-trash-o Remove
-                  
-            .row
-              .col-sm-12
-                div
-                  div 
-                    span.inline Queue progress:
-                    div.progress.inline 
-                      div.progress-bar(role="progressbar" ng-style="{ 'width': uploader.progress + '%' }")
-                  button.btn.btn-success.btn-s(type="button" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length")
-                      i.fa.fa-upload Upload all
-                  button.btn.btn-warning.btn-s(type="button" class="" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading")
-                      i.fa.fa-ban Cancel all
-                  button.btn.btn-danger.btn-s(type="button" class="" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length")
-                      i.fa.fa-trash-o Remove all
-                      
+            
+            //- table.table
+            //-   thead
+            //-     tr
+            //-       th(width="50%") Name
+            //-       th Heading
+            //-       th(ng-show="uploader.isHTML5") size
+            //-       th(ng-show="uploader.isHTML5") Progress
+            //-       th Status
+            //-       th Actions
+            //-   tbody
+            //-     tr(ng-repeat="item in uploader.queue")
+            //-       td
+            //-         strong {{item.file.name}}
+            //-         div(ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }")
+            //-         input(type="text" placeholder="Enter Image Heading")
+            //-       td
+            //-         input(type="text" placeholder="Enter Image Heading")
+            //-       td(ng-show="uploader.isHTML5" nowrap) {{ item.file.size/1024/1024|number:2 }} MB
+            //-       td(ng-show="uploader.isHTML5")
+            //-         div.progress(style="margin-bottom: 0")
+            //-           div.progress-bar(role="progressbar" ng-style="{ 'width': item.progress + '%' }")
+            //-       td.text-center
+            //-         span(ng-show="item.isSuccess") 
+            //-           i.fa.fa-upload
+            //-         span(ng-show="item.isCancel") 
+            //-           i.fa.fa-ban
+            //-         span(ng-show="item.isError") 
+            //-           i.fa.fa-trash-o
+            //-       td(nowrap)
+            //-         button.btn.btn-success.btn-xs(type="button" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess")
+            //-           i.fa.fa-upload Upload
+            //-         
+            //-         button.btn.btn-warning.btn-xs(type="button" ng-click="item.cancel()" ng-disabled="!item.isUploading")
+            //-           i.fa.fa-ban Cancel
+            //-         
+            //-         button.btn.btn-danger.btn-xs(type="button" ng-click="item.remove()")
+            //-           i.fa.fa-trash-o Remove
+                
+          .row(ng-if="uploader.queue.length")
+            .col-sm-12
+              div
+                div 
+                  span.inline Queue progress:
+                  div.progress.inline 
+                    div.progress-bar(role="progressbar" ng-style="{ 'width': uploader.progress + '%' }")
+                button.btn.btn-success.btn-s(type="button" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length")
+                    i.fa.fa-upload Upload all
+                button.btn.btn-warning.btn-s(type="button" class="" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading")
+                    i.fa.fa-ban Cancel all
+                button.btn.btn-danger.btn-s(type="button" class="" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length")
+                    i.fa.fa-trash-o Remove all
+                    
+          .row
+            .col-sm-12
+              button.btn.btn-primary(type="button", ng-click="save()", ng-disabled="!uploader.queue.length") Submit
+                    
                   
                                     
                       

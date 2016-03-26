@@ -20,7 +20,7 @@ var app = angular.module('myApp', ['ngRoute','ngResource', 'ngMaterial', 'angula
   });
 
   /* Create Picks Controller */
-  app.controller("PickSetCtrl", function($scope, $routeParams, FileUploader) {
+  app.controller("PickSetCtrl", function($scope, $routeParams, FileUploader, $http) {
     console.log('in pickset ctrl');
     $scope.myDate = new Date();
 			$scope.changeDate = moment($scope.myDate).format("LL");
@@ -32,6 +32,10 @@ var app = angular.module('myApp', ['ngRoute','ngResource', 'ngMaterial', 'angula
 		  	$scope.changeDate= moment(dt).format("LL");
 				console.log('changed date: ', $scope.changeDate);
 			}
+      //
+      // $scope.postSet = function() {
+      //   console.log('')
+      // }
 
 			$scope.save = function(){
 
@@ -65,6 +69,11 @@ var app = angular.module('myApp', ['ngRoute','ngResource', 'ngMaterial', 'angula
 				}
 				else{
 					console.log('set up update section');
+
+          $http.post('/picks/create', pickset)
+            .then(function(resp) {
+                console.log("Successfully got objects !", resp.data);
+            });
 					// picksService.updateProduct(pickset, $scope.pickset.id)
 					// 	.then(notify);
 				}
@@ -81,7 +90,7 @@ var app = angular.module('myApp', ['ngRoute','ngResource', 'ngMaterial', 'angula
 			uploader.filters.push({
 					name: 'imageFilter',
 					fn: function(item /*{File|FileLikeObject}*/, options) {
-						console.log('filter stuff ', item);
+						console.log('filter stuff ', $scope);
 							var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
 							return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
 					}
@@ -140,7 +149,7 @@ var app = angular.module('myApp', ['ngRoute','ngResource', 'ngMaterial', 'angula
 
         return {
             restrict: 'A',
-            template: '<img/>',
+            template: '<canvas/>',
             link: function(scope, element, attributes) {
                 if (!helper.support) return;
 
@@ -149,7 +158,7 @@ var app = angular.module('myApp', ['ngRoute','ngResource', 'ngMaterial', 'angula
                 if (!helper.isFile(params.file)) return;
                 if (!helper.isImage(params.file)) return;
 
-                var canvas = element.find('img');
+                var canvas = element.find('canvas');
                 var reader = new FileReader();
 
                 reader.onload = onLoadFile;
@@ -164,7 +173,8 @@ var app = angular.module('myApp', ['ngRoute','ngResource', 'ngMaterial', 'angula
                 function onLoadImage() {
                     var width = params.width || this.width / this.height * params.height;
                     var height = params.height || this.height / this.width * params.width;
-                    canvas.attr({ width: width, height: height, class: 'img-responsive' });
+                    canvas.attr({ width: width, height: height });
+                    canvas[0].getContext('2d').drawImage(this, 0, 0, width, height);
                 }
             }
         };

@@ -139,7 +139,9 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 
 app.get('/picks', picksController.getPicks);
 app.get('/picks/create', picksController.getPicksCreated);
-app.post('/picks/create', picksController.postPicksCreated);
+app.post('/picks/create', picksController.postPicksCreated, function() {
+  console.log('in picks/create');
+});
 
 app.route('/picks/upload')
 .post(function (req, res) {
